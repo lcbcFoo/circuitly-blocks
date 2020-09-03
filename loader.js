@@ -75,3 +75,5 @@ NOR_loader(workspace);
 
 // Load blocks to workspace
 Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
+
+export default utils;
