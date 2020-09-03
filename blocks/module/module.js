@@ -1,5 +1,5 @@
-import * as Blockly from 'blockly/core';
-import 'blockly/python';
+import * as Blockly from "blockly/core"; 
+import "blockly/python";
 import  * as utils  from '../../utils/utils.js'
 
 export function load(workspace) {

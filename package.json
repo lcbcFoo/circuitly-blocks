@@ -1,0 +1,23 @@
+{
+  "name": "circuitly-blocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "loader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcbcFoo/circuitly-blocks.git"
+  },
+  "keywords": [],
+  "author": "Lucas Castro <lcbc.lucascastro@gmail.com> (lcbcfoo)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/lcbcFoo/circuitly-blocks/issues"
+  },
+  "homepage": "https://github.com/lcbcFoo/circuitly-blocks#readme",
+  "dependencies": {
+    "blockly": "^3.20200625.2"
+  }
+}
