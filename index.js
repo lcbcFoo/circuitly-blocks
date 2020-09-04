@@ -16,7 +16,7 @@ import { load as OR_loader } from "./logic/OR/OR";
 import { load as XOR_loader } from "./logic/XOR/XOR";
 import { load as NOR_loader } from "./logic/NOR/NOR";
 import { load as NOT_loader } from "./logic/NOT/NOT";
-function prepareCircuitlyBlocks(blocklyDiv, workspaceId, toolboxId) {
+export function prepareCircuitlyBlocks(blocklyDiv, workspaceId, toolboxId) {
     //////////////////////////////////////////////////////////////////////////////
     // Blockly setup
     // Get toolbox and workspace
@@ -62,5 +62,4 @@ function prepareCircuitlyBlocks(blocklyDiv, workspaceId, toolboxId) {
     // Load blocks to workspace
     Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
 }
-export default prepareCircuitlyBlocks;
 //# sourceMappingURL=index.js.map

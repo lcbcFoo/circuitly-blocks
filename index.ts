@@ -19,7 +19,7 @@ import { load as XOR_loader } from "./logic/XOR/XOR";
 import { load as NOR_loader } from "./logic/NOR/NOR";
 import { load as NOT_loader } from "./logic/NOT/NOT";
 
-function prepareCircuitlyBlocks(
+export function prepareCircuitlyBlocks(
     blocklyDiv: string,
     workspaceId: string,
     toolboxId: string
@@ -75,5 +75,3 @@ function prepareCircuitlyBlocks(
     // Load blocks to workspace
     Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
 }
-
-export default prepareCircuitlyBlocks;
