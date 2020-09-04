@@ -1,2 +1,3 @@
 import "blockly/python";
-export declare function loadCircuitlyBlocks(blocklyDiv: string, workspaceId: string, toolboxId: string): void;
+declare function prepareCircuitlyBlocks(blocklyDiv: string, workspaceId: string, toolboxId: string): void;
+export default prepareCircuitlyBlocks;

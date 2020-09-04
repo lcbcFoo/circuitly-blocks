@@ -1,11 +1,10 @@
-import * as Blockly from "blockly/core"; 
+import * as Blockly from "blockly/core";
 import "blockly/python";
-import  * as utils  from '../../utils/utils'
-
+import * as utils from '../../utils/utils';
 export function load(workspace) {
     // Define module
     Blockly.Blocks['module'] = {
-        init: function() {
+        init: function () {
             this.appendDummyInput()
                 .appendField(new Blockly.FieldTextInput("module_name"), "NAME");
             this.appendDummyInput()
@@ -25,19 +24,18 @@ export function load(workspace) {
             this.setTooltip("Build an and block. Should output C = A AND B");
             this.setHelpUrl("");
             this.setMutator(new Blockly.Mutator(['module_connection']));
-
             this.connections = [];
             this.declaredSignals = [[], [], [], [], [], [], []];
             this.isMenuOpen = false;
-            this.nameRegex = new RegExp('^[a-zA-Z\_\][\w\_]*$')
+            this.nameRegex = new RegExp('^[a-zA-Z\_\][\w\_]*$');
         },
         /**
          * Create XML to represent whether the 'pxchecked' should be present.
          * @return {Element} XML storage element.
          * @this Blockly.Block
          */
-        mutationToDom: function() {
-            let container = document.createElement('mutation');
+        mutationToDom: function () {
+            var container = document.createElement('mutation');
             return container;
         },
         /**
@@ -45,17 +43,16 @@ export function load(workspace) {
          * @param {!Element} xmlElement XML storage element.
          * @this Blockly.Block
          */
-        domToMutation: function(xmlElement) {
+        domToMutation: function (xmlElement) {
         },
-        decompose: function(workspace) {
+        decompose: function (workspace) {
             this.isMenuOpen = true;
-            let topBlock = workspace.newBlock('connections_designer');
+            var topBlock = workspace.newBlock('connections_designer');
             topBlock.initSvg();
-            let nextConn = topBlock.getInput('CONNECTIONS').connection
-
-            let connections = this.connections;
-            for (let i = 0; i < connections.length; i++) {
-                let newBlock = workspace.newBlock('module_connection');
+            var nextConn = topBlock.getInput('CONNECTIONS').connection;
+            var connections = this.connections;
+            for (var i = 0; i < connections.length; i++) {
+                var newBlock = workspace.newBlock('module_connection');
                 newBlock.initSvg();
                 newBlock.render();
                 newBlock.getField('NAME').setValue(connections[i]['name']);
@@ -64,34 +61,29 @@ export function load(workspace) {
                 nextConn.connect(newBlock.previousConnection);
                 nextConn = newBlock.nextConnection;
             }
-
             return topBlock;
         },
-        compose: function(topBlock) {
+        compose: function (topBlock) {
             this.isMenuOpen = false;
-            let nextConn = topBlock.getInput('CONNECTIONS').connection;
-            let connections = [];
+            var nextConn = topBlock.getInput('CONNECTIONS').connection;
+            var connections = [];
             while (nextConn && nextConn.targetBlock()) {
-                let connectionBlock = nextConn.targetBlock();
-                let type = connectionBlock.getFieldValue('TYPE_SELECTION');
-                let size = connectionBlock.getFieldValue('SIZE_SELECTION');
-                let name = connectionBlock.getFieldValue('NAME');
-                connections.push({'type' : type, 'size' : size, 'name' : name});
+                var connectionBlock = nextConn.targetBlock();
+                var type = connectionBlock.getFieldValue('TYPE_SELECTION');
+                var size = connectionBlock.getFieldValue('SIZE_SELECTION');
+                var name_1 = connectionBlock.getFieldValue('NAME');
+                connections.push({ 'type': type, 'size': size, 'name': name_1 });
                 nextConn = connectionBlock.nextConnection;
             }
-
             this.updateShape_(connections);
         },
-
-        updateShape_: function(connections) {
+        updateShape_: function (connections) {
             // Make sure there are no connections
             this.cleanOldConnections_();
-
-            let nextConn = this.getInput('CONNECTIONS').connection;
-
+            var nextConn = this.getInput('CONNECTIONS').connection;
             // Loop through all connections creating their blocks.
-            for (let i = 0; i < connections.length; i++) {
-                let newBlock = workspace.newBlock('module_connection');
+            for (var i = 0; i < connections.length; i++) {
+                var newBlock = workspace.newBlock('module_connection');
                 newBlock.initSvg();
                 newBlock.render();
                 newBlock.getField('NAME').setValue(connections[i]['name']);
@@ -101,192 +93,175 @@ export function load(workspace) {
                 nextConn.connect(newBlock.previousConnection);
                 nextConn = newBlock.nextConnection;
             }
-
             // Lastly, register in the module block its connections
             this.connections = connections;
         },
-        cleanOldConnections_: function() {
-            for (let i = 0; i < this.connections.length; i++) {
+        cleanOldConnections_: function () {
+            for (var i = 0; i < this.connections.length; i++) {
                 this.connections[i]['block'].dispose(true);
             }
         },
-        saveConnections: function(containerBlock) {
+        saveConnections: function (containerBlock) {
         },
-        onchange: function() {
+        onchange: function () {
             // Update connections (inputs/outputs)
-            let connections = [];
-            let nextConn = this.getInput('CONNECTIONS').connection;
+            var connections = [];
+            var nextConn = this.getInput('CONNECTIONS').connection;
             while (nextConn.targetBlock() != null) {
-                let block = nextConn.targetBlock();
-                let type = block.getFieldValue('TYPE_SELECTION');
-                let size = block.getFieldValue('SIZE_SELECTION');
-                let name = block.getFieldValue('NAME');
-                connections.push({'type' : type, 'size' : size, 
-                    'name' : name, 'block' : block});
+                var block = nextConn.targetBlock();
+                var type = block.getFieldValue('TYPE_SELECTION');
+                var size = block.getFieldValue('SIZE_SELECTION');
+                var name_2 = block.getFieldValue('NAME');
+                connections.push({ 'type': type, 'size': size,
+                    'name': name_2, 'block': block });
                 nextConn = block.nextConnection;
             }
             this.connections = connections;
-
             // Update declared signals
-            let declaredSignals = [];
+            var declaredSignals = [];
             nextConn = this.getInput('SIGNALS').connection;
             while (nextConn.targetBlock() != null) {
-                let block = nextConn.targetBlock();
-                let size = block.getFieldValue('SIZE_SELECTION');
-                let name = block.getFieldValue('NAME');
-                declaredSignals.push({'size' : size, 'name' : name,
-                    'block' : block});
+                var block = nextConn.targetBlock();
+                var size = block.getFieldValue('SIZE_SELECTION');
+                var name_3 = block.getFieldValue('NAME');
+                declaredSignals.push({ 'size': size, 'name': name_3,
+                    'block': block });
                 nextConn = block.nextConnection;
             }
             this.declaredSignals = declaredSignals;
         },
-        signalExists: function(name) {
+        signalExists: function (name) {
             // Check if a declared signal has that name
-            for (let i = 0; i < this.declaredSignals.length; i++) {
-                for (let j = 0; j < this.declaredSignals[i].length; j++) {
+            for (var i = 0; i < this.declaredSignals.length; i++) {
+                for (var j = 0; j < this.declaredSignals[i].length; j++) {
                     if (this.declaredSignals[i][j].name === name) {
                         return [true, 'signal', this.declaredSignals[i][j]];
                     }
                 }
             }
-
             // Check if a connection has that name
-            for (let i = 0; i < this.connections.length; i++) {
+            for (var i = 0; i < this.connections.length; i++) {
                 if (this.connections[i]['name'] === name) {
-                    return [true, 'connection', this.connections[i]]; 
+                    return [true, 'connection', this.connections[i]];
                 }
             }
-
             return [false, 'none', {}];
         },
-        isValidName: function(name) {
+        isValidName: function (name) {
             if (!this.nameRegex.test(name)) {
                 return false;
             }
-
-            let exists = this.signalExists(name);
-
+            var exists = this.signalExists(name);
             if (exists[0]) {
                 return false;
             }
             return true;
         },
-        getSvDependencies: function() {
-            let descendants = this.getDescendants();
+        getSvDependencies: function () {
+            var descendants = this.getDescendants();
             console.log(descendants);
-            let deps = [];
-
+            var deps = [];
             // List types of descendants excluding those which are reserved
             // type.
-            for (let i = 0; i < descendants.length; i++) {
-                console.log(descendants[i].type)
+            for (var i = 0; i < descendants.length; i++) {
+                console.log(descendants[i].type);
                 if (!(descendants[i].type in utils.reservedTypes)) {
                     deps.push(descendants[i].type);
                 }
             }
             return deps;
         },
-        getConnections: function() {
+        getConnections: function () {
             return this.connections;
         },
-        makeSignalList: function(size) {
-            let signals = []
+        makeSignalList: function (size) {
+            var signals = [];
             // List connections
-            for (let i = 0; i < this.connections.length; i++) {
+            for (var i = 0; i < this.connections.length; i++) {
                 if (this.connections[i].size === size) {
-                    let name = this.connections[i].name;
-                    signals.push([name, name]);
+                    var name_4 = this.connections[i].name;
+                    signals.push([name_4, name_4]);
                 }
             }
             // List signals
-            for (let i = 0; i < this.declaredSignals.length; i++) {
+            for (var i = 0; i < this.declaredSignals.length; i++) {
                 if (this.declaredSignals[i].size === size) {
-                    let name = this.declaredSignals[i].name;
-                    signals.push([name, name]);
+                    var name_5 = this.declaredSignals[i].name;
+                    signals.push([name_5, name_5]);
                 }
             }
-
             // If there is at least one valid signal
             if (signals.length > 0) {
                 return signals;
             }
-
             return [['<no valid signal>', 'SIGNAL_INVALID']];
         }
     };
-
-    (Blockly as any).Python['module'] = function(block) {
+    Blockly.Python['module'] = function (block) {
         console.log(block);
-        let text_name = block.getFieldValue('NAME');
-        let statements_connections = (Blockly as any).Python.statementToCode(block, 'CONNECTIONS');
-        let statements_signals = (Blockly as any).Python.statementToCode(block, 'SIGNALS');
-        let statements_implementation = (Blockly as any).Python.statementToCode(block, 'IMPLEMENTATION');
+        var text_name = block.getFieldValue('NAME');
+        var statements_connections = Blockly.Python.statementToCode(block, 'CONNECTIONS');
+        var statements_signals = Blockly.Python.statementToCode(block, 'SIGNALS');
+        var statements_implementation = Blockly.Python.statementToCode(block, 'IMPLEMENTATION');
         // TODO: Assemble Python into code variable.
-        let code = 'module ' + text_name + '(\n';
+        var code = 'module ' + text_name + '(\n';
         // Compose input/outputs declarations
-        let conns = block.connections;
-        for (let i = 0; i < conns.length; i++) {
+        var conns = block.connections;
+        for (var i = 0; i < conns.length; i++) {
             code += '    ';
-            let type = conns[i]['type'];
-            let size = conns[i]['size'];
-            let name = conns[i]['name'];
-            let bitLen = utils.getSignalBitLen(size);
-
+            var type = conns[i]['type'];
+            var size = conns[i]['size'];
+            var name_6 = conns[i]['name'];
+            var bitLen = utils.getSignalBitLen(size);
             if (bitLen === 1) {
                 if (type === "TYPE_INPUT") {
-                    code += 'input ' + name;
+                    code += 'input ' + name_6;
                 }
                 else {
-                    code += 'output ' + name;
+                    code += 'output ' + name_6;
                 }
             }
             else {
                 if (type === "TYPE_INPUT") {
-                    code += 'input [' + (bitLen - 1) + ':0] ' + name;
+                    code += 'input [' + (bitLen - 1) + ':0] ' + name_6;
                 }
                 else {
-                    code += 'output [' + (bitLen - 1) + ':0] ' + name;
+                    code += 'output [' + (bitLen - 1) + ':0] ' + name_6;
                 }
             }
-
             if (i < conns.length - 1) {
                 code += ',';
             }
             code += '\n';
         }
         code += ');\n\n';
-
         // Declare signals
-        let signals = this.declaredSignals
-        for (let i = 0; i < signals.length; i++) {
-            let size = signals[i]['size'];
-            let name = signals[i]['name'];
-            let bitLen = utils.getSignalBitLen(size);
+        var signals = this.declaredSignals;
+        for (var i = 0; i < signals.length; i++) {
+            var size = signals[i]['size'];
+            var name_7 = signals[i]['name'];
+            var bitLen = utils.getSignalBitLen(size);
             code += '    wire ';
             if (bitLen === 1) {
-                code += name;
+                code += name_7;
             }
             else {
-                code += '[' + (bitLen - 1) + ':0] ' + name;
+                code += '[' + (bitLen - 1) + ':0] ' + name_7;
             }
-            code += ';\n'
-
+            code += ';\n';
         }
         if (signals.length >= 1) {
             code += '\n\n';
         }
         code += statements_implementation + '\n';
         code += 'endmodule';
-
         // Generate new blockly block to instantiate module
         // code += '\n\ntest block instantiation gen\n\n'
-
         // // Block definition
         // code += 'Blockly.Blocks[\'' + text_name + '\'] = {\n' +
         //         '   init: function() {\n' +
         //         '       this.appendDummyInput()\n' +
         //         '           .appendField(\"' + text_name + '\");\n';
-
         // for (let i = 0; i < conns.length; i++) {
         //     let type = conns[i]['type'];
         //     let size = conns[i]['size'];
@@ -304,7 +279,6 @@ export function load(workspace) {
         //     code += '           .setCheck(\"SIGNAL\")\n';
         //     code += '           .appendField(\"' + label + '\");\n';
         // }
-
         // code += '       this.setInputsInline(true);\n' +
         //         '       this.setPreviousStatement(true, "LOGIC");\n' +
         //         '       this.setNextStatement(true, "LOGIC");\n' +
@@ -313,12 +287,10 @@ export function load(workspace) {
         //         '       this.setHelpUrl("");\n' + 
         //         '   }\n' + 
         //         '};\n\n';
-
         // // Block code generation
         // code += '(Blockly as any).Python[\"' + text_name + '\"] = function(block) {\n';
         // code += '    let block_name = utils.get_temp_name(\"' + text_name + '\");\n';
         // code += '    let code = \"  ' + text_name + ' \" + block_name + \"(\";\n';
-        
         // // Generate all variables
         // for (let i = 0; i < conns.length; i++) {
         //     let type = conns[i]['type'];
@@ -330,7 +302,6 @@ export function load(workspace) {
         //         '(Blockly as any).Python.valueToCode(block, \"' + name + '\", ' +
         //         '(Blockly as any).Python.ORDER_ATOMIC);\n';
         //     code += '    code += ' + varName + ';\n';
-
         //     if (i < conns.length - 1) {
         //         code += '    code += \", \"\n';
         //     }
@@ -343,3 +314,4 @@ export function load(workspace) {
         return code;
     };
 }
+//# sourceMappingURL=module.js.map

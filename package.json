@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build" : "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,8 @@
   "homepage": "https://github.com/lcbcFoo/circuitly-blocks#readme",
   "dependencies": {
     "blockly": "^3.20200625.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.2"
   }
 }
