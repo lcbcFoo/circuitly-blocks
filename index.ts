@@ -12,7 +12,6 @@ import { load as assign_loader } from "./blocks/assign/assign";
 import { load as bits_select_loader } from "./blocks/bits_select/bits_select";
 import { load as NAND_loader } from "./blocks/NAND/NAND";
 
-
 // TODO: this should be able to search for logic models in logic directory
 import { load as AND_loader } from "./logic/AND/AND";
 import { load as OR_loader } from "./logic/OR/OR";
@@ -20,8 +19,10 @@ import { load as XOR_loader } from "./logic/XOR/XOR";
 import { load as NOR_loader } from "./logic/NOR/NOR";
 import { load as NOT_loader } from "./logic/NOT/NOT";
 
-export function loadCircuitlyBlocks(
-    blocklyDiv: string, workspaceId: string, toolboxId: string
+export function prepareCircuitlyBlocks (
+    blocklyDiv: string,
+    workspaceId: string,
+    toolboxId: string
 ) {
     //////////////////////////////////////////////////////////////////////////////
     // Blockly setup
