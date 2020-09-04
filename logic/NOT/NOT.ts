@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     Blockly.Blocks['NOT'] = {
@@ -22,10 +22,10 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python["NOT"] = function(block) {
+    (Blockly as any).Python["NOT"] = function(block) {
         let outSignalBlock = block.getInput('b').connection.targetBlock();
-        let val_b = Blockly.Python.valueToCode(block, "b", Blockly.Python.ORDER_ATOMIC);
-        let val_a = Blockly.Python.valueToCode(block, "a", Blockly.Python.ORDER_ATOMIC);
+        let val_b = (Blockly as any).Python.valueToCode(block, "b", (Blockly as any).Python.ORDER_ATOMIC);
+        let val_a = (Blockly as any).Python.valueToCode(block, "a", (Blockly as any).Python.ORDER_ATOMIC);
 
         if (utils.isPrettySimMode()) {
             return 'assign ' + val_b + ' = ~' + val_a + ';\n';

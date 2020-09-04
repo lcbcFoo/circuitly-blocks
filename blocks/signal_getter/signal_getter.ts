@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     // Define signal_getter
@@ -60,12 +60,12 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python['signal_getter'] = function(block) {
+    (Blockly as any).Python['signal_getter'] = function(block) {
         var dropdown_size_selection = block.getFieldValue('SIZE_SELECTION');
         var dropdown_signal_name = block.getFieldValue('SIGNAL_NAME');
         // TODO: Assemble Python into code variable.
         var code = dropdown_signal_name;
         // TODO: Change ORDER_NONE to the correct strength.
-        return [code, Blockly.Python.ORDER_ATOMIC];
+        return [code, (Blockly as any).Python.ORDER_ATOMIC];
     };
 }

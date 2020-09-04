@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     Blockly.Blocks['splitter'] = {
@@ -28,10 +28,10 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python['splitter'] = function(block) {
-        var value_source = Blockly.Python.valueToCode(block, 'source', Blockly.Python.ORDER_ATOMIC);
-        var value_target_1 = Blockly.Python.valueToCode(block, 'target_1', Blockly.Python.ORDER_ATOMIC);
-        var value_target_2 = Blockly.Python.valueToCode(block, 'target_2', Blockly.Python.ORDER_ATOMIC);
+    (Blockly as any).Python['splitter'] = function(block) {
+        var value_source = (Blockly as any).Python.valueToCode(block, 'source', (Blockly as any).Python.ORDER_ATOMIC);
+        var value_target_1 = (Blockly as any).Python.valueToCode(block, 'target_1', (Blockly as any).Python.ORDER_ATOMIC);
+        var value_target_2 = (Blockly as any).Python.valueToCode(block, 'target_2', (Blockly as any).Python.ORDER_ATOMIC);
 
         var sourceBlock = block.getInput('source').connection.targetBlock();
         var t1_block = block.getInput('target_1').connection.targetBlock();

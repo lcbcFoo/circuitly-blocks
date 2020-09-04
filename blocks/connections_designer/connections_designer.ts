@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     // Define connections_designer (for module mutator)
@@ -16,8 +16,8 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python['connections_designer'] = function(block) {
-        var statements_connections = Blockly.Python.statementToCode(block, 'CONNECTIONS');
+    (Blockly as any).Python['connections_designer'] = function(block) {
+        var statements_connections = (Blockly as any).Python.statementToCode(block, 'CONNECTIONS');
         // TODO: Assemble Python into code variable.
         var code = 'designer';
         return code;

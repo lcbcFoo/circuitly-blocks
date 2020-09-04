@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     Blockly.Blocks['concat'] = {
@@ -26,10 +26,10 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python['concat'] = function(block) {
-        var value_source_1 = Blockly.Python.valueToCode(block, 'source_1', Blockly.Python.ORDER_ATOMIC);
-        var value_source_2 = Blockly.Python.valueToCode(block, 'source_2', Blockly.Python.ORDER_ATOMIC);
-        var value_target = Blockly.Python.valueToCode(block, 'target', Blockly.Python.ORDER_ATOMIC);
+    (Blockly as any).Python['concat'] = function(block) {
+        var value_source_1 = (Blockly as any).Python.valueToCode(block, 'source_1', (Blockly as any).Python.ORDER_ATOMIC);
+        var value_source_2 = (Blockly as any).Python.valueToCode(block, 'source_2', (Blockly as any).Python.ORDER_ATOMIC);
+        var value_target = (Blockly as any).Python.valueToCode(block, 'target', (Blockly as any).Python.ORDER_ATOMIC);
 
         var targetBlock = block.getInput('target').connection.targetBlock();
         var s1_block = block.getInput('source_1').connection.targetBlock();

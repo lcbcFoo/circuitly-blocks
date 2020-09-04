@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import * as utils from "../../utils/utils.js";
+import * as utils from "../../utils/utils";
 
 export function load(workspace) {
     Blockly.Blocks["assign"] = {
@@ -20,16 +20,16 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python["assign"] = function(block) {
-        let value_dest = Blockly.Python.valueToCode(
+    (Blockly as any).Python["assign"] = function(block) {
+        let value_dest = (Blockly as any).Python.valueToCode(
             block,
             "dest",
-            Blockly.Python.ORDER_ATOMIC
+            (Blockly as any).Python.ORDER_ATOMIC
         );
-        let value_src = Blockly.Python.valueToCode(
+        let value_src = (Blockly as any).Python.valueToCode(
             block,
             "src",
-            Blockly.Python.ORDER_ATOMIC
+            (Blockly as any).Python.ORDER_ATOMIC
         );
         let code = "assign " + value_dest + " = " + value_src + ";\n";
         return code;

@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     // Define module_connection block
@@ -25,7 +25,7 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python['module_connection'] = function(block) {
+    (Blockly as any).Python['module_connection'] = function(block) {
         var dropdown_type_selection = block.getFieldValue('TYPE_SELECTION');
         var dropdown_size_selection = block.getFieldValue('SIZE_SELECTION');
         var value_name = block.getFieldValue('NAME');

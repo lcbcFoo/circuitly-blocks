@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     // Define signal declaration
@@ -28,7 +28,7 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python['create_signal'] = function(block) {
+    (Blockly as any).Python['create_signal'] = function(block) {
         var text_name = block.getFieldValue('NAME');
         var dropdown_size_selector = block.getFieldValue('SIZE_SELECTION');
         // TODO: Assemble Python into code variable.

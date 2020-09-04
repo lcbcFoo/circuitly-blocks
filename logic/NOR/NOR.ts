@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     Blockly.Blocks['NOR'] = {
@@ -25,11 +25,11 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python["NOR"] = function(block) {
+    (Blockly as any).Python["NOR"] = function(block) {
         let outSignalBlock = block.getInput('c').connection.targetBlock();
-        let val_b = Blockly.Python.valueToCode(block, "b", Blockly.Python.ORDER_ATOMIC);
-        let val_a = Blockly.Python.valueToCode(block, "a", Blockly.Python.ORDER_ATOMIC);
-        let val_c = Blockly.Python.valueToCode(block, "c", Blockly.Python.ORDER_ATOMIC);
+        let val_b = (Blockly as any).Python.valueToCode(block, "b", (Blockly as any).Python.ORDER_ATOMIC);
+        let val_a = (Blockly as any).Python.valueToCode(block, "a", (Blockly as any).Python.ORDER_ATOMIC);
+        let val_c = (Blockly as any).Python.valueToCode(block, "c", (Blockly as any).Python.ORDER_ATOMIC);
 
         if (utils.isPrettySimMode()) {
             return 'assign ' + val_c + ' = ' + val_a + ' ~| ' + val_b + ';\n';

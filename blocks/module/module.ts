@@ -1,6 +1,6 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
-import  * as utils  from '../../utils/utils.js'
+import  * as utils  from '../../utils/utils'
 
 export function load(workspace) {
     // Define module
@@ -37,7 +37,7 @@ export function load(workspace) {
          * @this Blockly.Block
          */
         mutationToDom: function() {
-            var container = document.createElement('mutation');
+            let container = document.createElement('mutation');
             return container;
         },
         /**
@@ -49,13 +49,13 @@ export function load(workspace) {
         },
         decompose: function(workspace) {
             this.isMenuOpen = true;
-            var topBlock = workspace.newBlock('connections_designer');
+            let topBlock = workspace.newBlock('connections_designer');
             topBlock.initSvg();
-            var nextConn = topBlock.getInput('CONNECTIONS').connection
+            let nextConn = topBlock.getInput('CONNECTIONS').connection
 
-            var connections = this.connections;
-            for (var i = 0; i < connections.length; i++) {
-                var newBlock = workspace.newBlock('module_connection');
+            let connections = this.connections;
+            for (let i = 0; i < connections.length; i++) {
+                let newBlock = workspace.newBlock('module_connection');
                 newBlock.initSvg();
                 newBlock.render();
                 newBlock.getField('NAME').setValue(connections[i]['name']);
@@ -69,13 +69,13 @@ export function load(workspace) {
         },
         compose: function(topBlock) {
             this.isMenuOpen = false;
-            var nextConn = topBlock.getInput('CONNECTIONS').connection;
-            var connections = [];
+            let nextConn = topBlock.getInput('CONNECTIONS').connection;
+            let connections = [];
             while (nextConn && nextConn.targetBlock()) {
-                var connectionBlock = nextConn.targetBlock();
-                var type = connectionBlock.getFieldValue('TYPE_SELECTION');
-                var size = connectionBlock.getFieldValue('SIZE_SELECTION');
-                var name = connectionBlock.getFieldValue('NAME');
+                let connectionBlock = nextConn.targetBlock();
+                let type = connectionBlock.getFieldValue('TYPE_SELECTION');
+                let size = connectionBlock.getFieldValue('SIZE_SELECTION');
+                let name = connectionBlock.getFieldValue('NAME');
                 connections.push({'type' : type, 'size' : size, 'name' : name});
                 nextConn = connectionBlock.nextConnection;
             }
@@ -87,11 +87,11 @@ export function load(workspace) {
             // Make sure there are no connections
             this.cleanOldConnections_();
 
-            var nextConn = this.getInput('CONNECTIONS').connection;
+            let nextConn = this.getInput('CONNECTIONS').connection;
 
             // Loop through all connections creating their blocks.
-            for (var i = 0; i < connections.length; i++) {
-                var newBlock = workspace.newBlock('module_connection');
+            for (let i = 0; i < connections.length; i++) {
+                let newBlock = workspace.newBlock('module_connection');
                 newBlock.initSvg();
                 newBlock.render();
                 newBlock.getField('NAME').setValue(connections[i]['name']);
@@ -106,7 +106,7 @@ export function load(workspace) {
             this.connections = connections;
         },
         cleanOldConnections_: function() {
-            for (var i = 0; i < this.connections.length; i++) {
+            for (let i = 0; i < this.connections.length; i++) {
                 this.connections[i]['block'].dispose(true);
             }
         },
@@ -114,13 +114,13 @@ export function load(workspace) {
         },
         onchange: function() {
             // Update connections (inputs/outputs)
-            var connections = [];
-            var nextConn = this.getInput('CONNECTIONS').connection;
+            let connections = [];
+            let nextConn = this.getInput('CONNECTIONS').connection;
             while (nextConn.targetBlock() != null) {
-                var block = nextConn.targetBlock();
-                var type = block.getFieldValue('TYPE_SELECTION');
-                var size = block.getFieldValue('SIZE_SELECTION');
-                var name = block.getFieldValue('NAME');
+                let block = nextConn.targetBlock();
+                let type = block.getFieldValue('TYPE_SELECTION');
+                let size = block.getFieldValue('SIZE_SELECTION');
+                let name = block.getFieldValue('NAME');
                 connections.push({'type' : type, 'size' : size, 
                     'name' : name, 'block' : block});
                 nextConn = block.nextConnection;
@@ -128,12 +128,12 @@ export function load(workspace) {
             this.connections = connections;
 
             // Update declared signals
-            var declaredSignals = [];
+            let declaredSignals = [];
             nextConn = this.getInput('SIGNALS').connection;
             while (nextConn.targetBlock() != null) {
-                var block = nextConn.targetBlock();
-                var size = block.getFieldValue('SIZE_SELECTION');
-                var name = block.getFieldValue('NAME');
+                let block = nextConn.targetBlock();
+                let size = block.getFieldValue('SIZE_SELECTION');
+                let name = block.getFieldValue('NAME');
                 declaredSignals.push({'size' : size, 'name' : name,
                     'block' : block});
                 nextConn = block.nextConnection;
@@ -142,8 +142,8 @@ export function load(workspace) {
         },
         signalExists: function(name) {
             // Check if a declared signal has that name
-            for (var i = 0; i < this.declaredSignals.length; i++) {
-                for (var j = 0; j < this.declaredSignals[i].length; j++) {
+            for (let i = 0; i < this.declaredSignals.length; i++) {
+                for (let j = 0; j < this.declaredSignals[i].length; j++) {
                     if (this.declaredSignals[i][j].name === name) {
                         return [true, 'signal', this.declaredSignals[i][j]];
                     }
@@ -151,7 +151,7 @@ export function load(workspace) {
             }
 
             // Check if a connection has that name
-            for (var i = 0; i < this.connections.length; i++) {
+            for (let i = 0; i < this.connections.length; i++) {
                 if (this.connections[i]['name'] === name) {
                     return [true, 'connection', this.connections[i]]; 
                 }
@@ -164,7 +164,7 @@ export function load(workspace) {
                 return false;
             }
 
-            exists = this.signalExists(name);
+            let exists = this.signalExists(name);
 
             if (exists[0]) {
                 return false;
@@ -172,13 +172,13 @@ export function load(workspace) {
             return true;
         },
         getSvDependencies: function() {
-            var descendants = this.getDescendants();
+            let descendants = this.getDescendants();
             console.log(descendants);
-            var deps = [];
+            let deps = [];
 
             // List types of descendants excluding those which are reserved
             // type.
-            for (var i = 0; i < descendants.length; i++) {
+            for (let i = 0; i < descendants.length; i++) {
                 console.log(descendants[i].type)
                 if (!utils.reservedTypes.includes(descendants[i].type)) {
                     deps.push(descendants[i].type);
@@ -190,18 +190,18 @@ export function load(workspace) {
             return this.connections;
         },
         makeSignalList: function(size) {
-            var signals = []
+            let signals = []
             // List connections
-            for (var i = 0; i < this.connections.length; i++) {
+            for (let i = 0; i < this.connections.length; i++) {
                 if (this.connections[i].size === size) {
-                    name = this.connections[i].name;
+                    let name = this.connections[i].name;
                     signals.push([name, name]);
                 }
             }
             // List signals
-            for (var i = 0; i < this.declaredSignals.length; i++) {
+            for (let i = 0; i < this.declaredSignals.length; i++) {
                 if (this.declaredSignals[i].size === size) {
-                    name = this.declaredSignals[i].name;
+                    let name = this.declaredSignals[i].name;
                     signals.push([name, name]);
                 }
             }
@@ -215,22 +215,22 @@ export function load(workspace) {
         }
     };
 
-    Blockly.Python['module'] = function(block) {
+    (Blockly as any).Python['module'] = function(block) {
         console.log(block);
-        var text_name = block.getFieldValue('NAME');
-        var statements_connections = Blockly.Python.statementToCode(block, 'CONNECTIONS');
-        var statements_signals = Blockly.Python.statementToCode(block, 'SIGNALS');
-        var statements_implementation = Blockly.Python.statementToCode(block, 'IMPLEMENTATION');
+        let text_name = block.getFieldValue('NAME');
+        let statements_connections = (Blockly as any).Python.statementToCode(block, 'CONNECTIONS');
+        let statements_signals = (Blockly as any).Python.statementToCode(block, 'SIGNALS');
+        let statements_implementation = (Blockly as any).Python.statementToCode(block, 'IMPLEMENTATION');
         // TODO: Assemble Python into code variable.
-        var code = 'module ' + text_name + '(\n';
+        let code = 'module ' + text_name + '(\n';
         // Compose input/outputs declarations
-        var conns = block.connections;
-        for (var i = 0; i < conns.length; i++) {
+        let conns = block.connections;
+        for (let i = 0; i < conns.length; i++) {
             code += '    ';
-            var type = conns[i]['type'];
-            var size = conns[i]['size'];
-            var name = conns[i]['name'];
-            var bitLen = utils.getSignalBitLen(size);
+            let type = conns[i]['type'];
+            let size = conns[i]['size'];
+            let name = conns[i]['name'];
+            let bitLen = utils.getSignalBitLen(size);
 
             if (bitLen === 1) {
                 if (type === "TYPE_INPUT") {
@@ -257,11 +257,11 @@ export function load(workspace) {
         code += ');\n\n';
 
         // Declare signals
-        var signals = this.declaredSignals
-        for (var i = 0; i < signals.length; i++) {
-            var size = signals[i]['size'];
-            var name = signals[i]['name'];
-            var bitLen = utils.getSignalBitLen(size);
+        let signals = this.declaredSignals
+        for (let i = 0; i < signals.length; i++) {
+            let size = signals[i]['size'];
+            let name = signals[i]['name'];
+            let bitLen = utils.getSignalBitLen(size);
             code += '    wire ';
             if (bitLen === 1) {
                 code += name;
@@ -287,19 +287,19 @@ export function load(workspace) {
         //         '       this.appendDummyInput()\n' +
         //         '           .appendField(\"' + text_name + '\");\n';
 
-        // for (var i = 0; i < conns.length; i++) {
-        //     var type = conns[i]['type'];
-        //     var size = conns[i]['size'];
-        //     var name = conns[i]['name'];
-        //     var bitLen = utils.getSignalBitLen(size);
-        //     var tip = '';
+        // for (let i = 0; i < conns.length; i++) {
+        //     let type = conns[i]['type'];
+        //     let size = conns[i]['size'];
+        //     let name = conns[i]['name'];
+        //     let bitLen = utils.getSignalBitLen(size);
+        //     let tip = '';
         //     if (type === "TYPE_INPUT") {
         //         tip = 'in';
         //     }
         //     else {
         //         tip = 'out'
         //     }
-        //     var label = tip + ' ' + name;
+        //     let label = tip + ' ' + name;
         //     code += '       this.appendValueInput(\"' + name + '\")\n';
         //     code += '           .setCheck(\"SIGNAL\")\n';
         //     code += '           .appendField(\"' + label + '\");\n';
@@ -315,20 +315,20 @@ export function load(workspace) {
         //         '};\n\n';
 
         // // Block code generation
-        // code += 'Blockly.Python[\"' + text_name + '\"] = function(block) {\n';
-        // code += '    var block_name = utils.get_temp_name(\"' + text_name + '\");\n';
-        // code += '    var code = \"  ' + text_name + ' \" + block_name + \"(\";\n';
+        // code += '(Blockly as any).Python[\"' + text_name + '\"] = function(block) {\n';
+        // code += '    let block_name = utils.get_temp_name(\"' + text_name + '\");\n';
+        // code += '    let code = \"  ' + text_name + ' \" + block_name + \"(\";\n';
         
         // // Generate all variables
-        // for (var i = 0; i < conns.length; i++) {
-        //     var type = conns[i]['type'];
-        //     var size = conns[i]['size'];
-        //     var name = conns[i]['name'];
-        //     var bitLen = utils.getSignalBitLen(size);
-        //     var varName = 'val_' + name;
-        //     code += '    var ' + varName + ' = ' +
-        //         'Blockly.Python.valueToCode(block, \"' + name + '\", ' +
-        //         'Blockly.Python.ORDER_ATOMIC);\n';
+        // for (let i = 0; i < conns.length; i++) {
+        //     let type = conns[i]['type'];
+        //     let size = conns[i]['size'];
+        //     let name = conns[i]['name'];
+        //     let bitLen = utils.getSignalBitLen(size);
+        //     let varName = 'val_' + name;
+        //     code += '    let ' + varName + ' = ' +
+        //         '(Blockly as any).Python.valueToCode(block, \"' + name + '\", ' +
+        //         '(Blockly as any).Python.ORDER_ATOMIC);\n';
         //     code += '    code += ' + varName + ';\n';
 
         //     if (i < conns.length - 1) {
