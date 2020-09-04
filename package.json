@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Digital Circuits blocks for Blockly used by Circuitly",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build" : "tsc",
     "prepare": "npm run build",
