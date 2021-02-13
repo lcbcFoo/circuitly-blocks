@@ -55,18 +55,16 @@ export function prepareCircuitlyBlocks(
     workspace.setTheme((Blockly as any).Themes.Dark);
 
     // Load circuitly blocks
-    let moduleBlock = new ModuleBlock();
-    moduleBlock.injectBlock(workspace);
-    module_connection_load(workspace);
-    create_signal_load(workspace);
-    signal_getter_load(workspace);
-    connections_designer_load(workspace);
-    splitter_loader(workspace);
-    concat_loader(workspace);
-    assign_loader(workspace);
-    bits_select_loader(workspace);
-    NAND_loader(workspace);
-
+    ModuleBlock.injectBlock();
+    ModuleConnectionBlock.injectBlock();
+    SignalGetterBlock.injectBlock();
+    CreateSignalBlock.injectBlock();
+    ConcatBlock.injectBlock();
+    SplitterBlock.injectBlock();
+    ConnectionsDesignerBlock.injectBlock();
+    AssignBlock.injectBlock();
+    BitsSelectBlock.injectBlock();
+    NandBlock.injectBlock();
     AND_loader(workspace);
     NOT_loader(workspace);
     OR_loader(workspace);

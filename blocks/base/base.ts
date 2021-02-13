@@ -9,14 +9,15 @@ export interface SVFile {
 }
 
 export class BaseBlock extends Blockly.Block {
-    name: string;
-    blocklyToSystemVerilog(block: Blockly.Block): string | any[] {
+    public static displayName: string;
+
+    public static blocklyToSystemVerilog(block: Blockly.Block): string | any[] {
         return ''
     }
 
-    injectBlock(): void {
-        Blockly.Blocks[this.name] = this;
-        (Blockly as any).Python[this.name] = this.blocklyToSystemVerilog;
+    public static injectBlock(): void {
+        Blockly.Blocks[this.displayName] = this;
+        (Blockly as any).Python[this.displayName] = this.blocklyToSystemVerilog;
     }
 }
 
