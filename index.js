@@ -3,7 +3,7 @@ import "blockly/python";
 import {ModuleBlock} from "./blocks/module/module";
 import {ModuleConnectionBlock} from "./blocks/module_connection/module_connection";
 import {CreateSignalBlock} from "./blocks/create_signal/create_signal";
-import {CreateSignalBlock} from "./blocks/signal_getter/signal_getter";
+import {SignalGetterBlock} from "./blocks/signal_getter/signal_getter";
 import {ConnectionsDesignerBlock} from "./blocks/connections_designer/connections_designer";
 import {SplitterBlock} from "./blocks/splitter/splitter";
 import {ConcatBlock} from "./blocks/concat/concat";
@@ -46,7 +46,17 @@ export function prepareCircuitlyBlocks(blocklyDiv, workspaceId, toolboxId) {
     workspace.setTheme(Blockly.Themes.Dark);
     // Load circuitly blocks
     ModuleBlock.injectBlock();
+    ModuleConnectionBlock.injectBlock();
+    SignalGetterBlock.injectBlock();
+    CreateSignalBlock.injectBlock();
+    ConcatBlock.injectBlock();
+    SplitterBlock.injectBlock();
+    ConnectionsDesignerBlock.injectBlock();
+    AssignBlock.injectBlock();
+    BitsSelectBlock.injectBlock();
+    NandBlock.injectBlock();
 
+    // This should be automatically searched and loaded
     AND_loader(workspace);
     NOT_loader(workspace);
     OR_loader(workspace);
