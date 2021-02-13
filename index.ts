@@ -1,16 +1,16 @@
 import * as Blockly from "blockly/core";
 import "blockly/python";
 import * as utils from "./utils/utils";
-import { load as module_load } from "./blocks/module/module";
-import { load as module_connection_load } from "./blocks/module_connection/module_connection";
-import { load as create_signal_load } from "./blocks/create_signal/create_signal";
-import { load as signal_getter_load } from "./blocks/signal_getter/signal_getter";
-import { load as connections_designer_load } from "./blocks/connections_designer/connections_designer";
-import { load as splitter_loader } from "./blocks/splitter/splitter";
-import { load as concat_loader } from "./blocks/concat/concat";
-import { load as assign_loader } from "./blocks/assign/assign";
-import { load as bits_select_loader } from "./blocks/bits_select/bits_select";
-import { load as NAND_loader } from "./blocks/NAND/NAND";
+import {ModuleBlock} from "./blocks/module/module";
+import {ModuleConnectionBlock} from "./blocks/module_connection/module_connection";
+import {CreateSignalBlock} from "./blocks/create_signal/create_signal";
+import {SignalGetterBlock} from "./blocks/signal_getter/signal_getter";
+import {ConnectionsDesignerBlock} from "./blocks/connections_designer/connections_designer";
+import {SplitterBlock} from "./blocks/splitter/splitter";
+import {ConcatBlock} from "./blocks/concat/concat";
+import {AssignBlock} from "./blocks/assign/assign";
+import {BitsSelectBlock} from "./blocks/bits_select/bits_select";
+import {NandBlock} from "./blocks/NAND/NAND";
 
 // TODO: this should be able to search for logic models in logic directory
 import { load as AND_loader } from "./logic/AND/AND";
@@ -55,7 +55,8 @@ export function prepareCircuitlyBlocks(
     workspace.setTheme((Blockly as any).Themes.Dark);
 
     // Load circuitly blocks
-    module_load(workspace);
+    let moduleBlock = new ModuleBlock();
+    moduleBlock.injectBlock(workspace);
     module_connection_load(workspace);
     create_signal_load(workspace);
     signal_getter_load(workspace);

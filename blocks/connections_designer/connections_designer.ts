@@ -1,25 +1,23 @@
-import * as Blockly from "blockly/core"; 
+import * as Blockly from "blockly/core";
 import "blockly/python";
-import  * as utils  from '../../utils/utils'
+import * as utils from "../../utils/utils";
+import { BaseBlock } from "../base/base";
 
-export function load(workspace) {
-    // Define connections_designer (for module mutator)
-    Blockly.Blocks['connections_designer'] = {
-        init: function() {
-            this.appendDummyInput()
-                .appendField("Connections");
-            this.appendStatementInput("CONNECTIONS")
-                .setCheck("CONNECTION");
-            this.setColour(utils.COLOUR_MODULE);
-            this.setTooltip("");
-            this.setHelpUrl("");
-        }
+export class ConnectionsDesignerBlock extends BaseBlock {
+    name = "connections_designer";
+
+    init = function() {
+        this.appendDummyInput().appendField("Connections");
+        this.appendStatementInput("CONNECTIONS").setCheck("CONNECTION");
+        this.setColour(utils.COLOUR_MODULE);
+        this.setTooltip("");
+        this.setHelpUrl("");
     };
 
-    (Blockly as any).Python['connections_designer'] = function(block) {
-        var statements_connections = (Blockly as any).Python.statementToCode(block, 'CONNECTIONS');
-        // TODO: Assemble Python into code variable.
-        var code = 'designer';
+    blocklyToSystemVerilog(block: Blockly.Block): string {
+        // The designer only exists in the module "settings" to build the
+        // connections and does not generate any SV code
+        let code = "";
         return code;
-    };
+    }
 }

@@ -1,26 +1,27 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
 import * as utils from "../../utils/utils";
+import {BaseBlock} from "../base/base";
 
-export function load(workspace) {
-    Blockly.Blocks["assign"] = {
-        init: function() {
-            this.appendValueInput("dest")
-                .setCheck("SIGNAL")
-                .appendField("assign");
-            this.appendValueInput("src")
-                .setCheck("SIGNAL")
-                .appendField("=");
-            this.setInputsInline(true);
-            this.setPreviousStatement(true, "LOGIC");
-            this.setNextStatement(true, "LOGIC");
-            this.setColour(utils.COLOUR_ASSIGN);
-            this.setTooltip("");
-            this.setHelpUrl("");
-        }
-    };
+export class AssignBlock extends BaseBlock {
+    name = 'assign';
 
-    (Blockly as any).Python["assign"] = function(block) {
+    init = function(): void {
+        this.appendValueInput("dest")
+            .setCheck("SIGNAL")
+            .appendField("assign");
+        this.appendValueInput("src")
+            .setCheck("SIGNAL")
+            .appendField("=");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, "LOGIC");
+        this.setNextStatement(true, "LOGIC");
+        this.setColour(utils.COLOUR_ASSIGN);
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+
+    blocklyToSystemVerilog(block: Blockly.Block): string {
         let value_dest = (Blockly as any).Python.valueToCode(
             block,
             "dest",
@@ -33,5 +34,5 @@ export function load(workspace) {
         );
         let code = "assign " + value_dest + " = " + value_src + ";\n";
         return code;
-    };
+    }
 }

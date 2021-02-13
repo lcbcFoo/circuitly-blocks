@@ -1,11 +1,18 @@
 import * as Blockly from "blockly/core"; 
 import "blockly/python";
 import  * as utils  from '../../utils/utils'
+import {BaseBlock} from "../base/base";
 
-export function load(workspace) {
+export class ModuleBlock extends BaseBlock {
+    name = 'module';
+    module_name: string = 'module';
+    isMenuOpen: boolean = false;
+    connections: any[] = [];
+    declaredSignals: any[] = [];
+    nameRegex: RegExp = new RegExp('');
+    
     // Define module
-    Blockly.Blocks['module'] = {
-        init: function() {
+        init = () => {
             this.appendDummyInput()
                 .appendField(new Blockly.FieldTextInput("module_name"), "NAME");
             this.appendDummyInput()
@@ -30,24 +37,27 @@ export function load(workspace) {
             this.declaredSignals = [[], [], [], [], [], [], []];
             this.isMenuOpen = false;
             this.nameRegex = new RegExp('^[a-zA-Z\_\][\w\_]*$')
-        },
+        }
+
         /**
          * Create XML to represent whether the 'pxchecked' should be present.
          * @return {Element} XML storage element.
          * @this Blockly.Block
          */
-        mutationToDom: function() {
+        mutationToDom = () => {
             let container = document.createElement('mutation');
             return container;
-        },
+        }
+
         /**
          * Parse XML to restore the 'pxchecked'.
          * @param {!Element} xmlElement XML storage element.
          * @this Blockly.Block
          */
-        domToMutation: function(xmlElement) {
-        },
-        decompose: function(workspace) {
+        domToMutation = (xmlElement) => {
+        }
+
+        decompose = (workspace): any => {
             this.isMenuOpen = true;
             let topBlock = workspace.newBlock('connections_designer');
             topBlock.initSvg();
@@ -66,8 +76,9 @@ export function load(workspace) {
             }
 
             return topBlock;
-        },
-        compose: function(topBlock) {
+        }
+
+        compose = (topBlock) => {
             this.isMenuOpen = false;
             let nextConn = topBlock.getInput('CONNECTIONS').connection;
             let connections = [];
@@ -81,9 +92,9 @@ export function load(workspace) {
             }
 
             this.updateShape_(connections);
-        },
+        }
 
-        updateShape_: function(connections) {
+        updateShape_ = (connections) => {
             // Make sure there are no connections
             this.cleanOldConnections_();
 
@@ -91,9 +102,9 @@ export function load(workspace) {
 
             // Loop through all connections creating their blocks.
             for (let i = 0; i < connections.length; i++) {
-                let newBlock = workspace.newBlock('module_connection');
-                newBlock.initSvg();
-                newBlock.render();
+                let newBlock = this.workspace.newBlock('module_connection');
+                (newBlock as any).initSvg();
+                (newBlock as any).render();
                 newBlock.getField('NAME').setValue(connections[i]['name']);
                 newBlock.getField('TYPE_SELECTION').setValue(connections[i]['type']);
                 newBlock.getField('SIZE_SELECTION').setValue(connections[i]['size']);
@@ -104,15 +115,19 @@ export function load(workspace) {
 
             // Lastly, register in the module block its connections
             this.connections = connections;
-        },
-        cleanOldConnections_: function() {
+        }
+
+        cleanOldConnections_ = () => {
             for (let i = 0; i < this.connections.length; i++) {
                 this.connections[i]['block'].dispose(true);
             }
-        },
-        saveConnections: function(containerBlock) {
-        },
-        onchange: function() {
+        }
+
+        saveConnections = (containerBlock) => {
+
+        }
+
+        onchange = () => {
             // Update connections (inputs/outputs)
             let connections = [];
             let nextConn = this.getInput('CONNECTIONS').connection;
@@ -139,8 +154,9 @@ export function load(workspace) {
                 nextConn = block.nextConnection;
             }
             this.declaredSignals = declaredSignals;
-        },
-        signalExists: function(name) {
+        }
+
+        signalExists = (name) => {
             // Check if a declared signal has that name
             for (let i = 0; i < this.declaredSignals.length; i++) {
                 for (let j = 0; j < this.declaredSignals[i].length; j++) {
@@ -158,8 +174,9 @@ export function load(workspace) {
             }
 
             return [false, 'none', {}];
-        },
-        isValidName: function(name) {
+        }
+
+        isValidName = (name: string): boolean => {
             if (!this.nameRegex.test(name)) {
                 return false;
             }
@@ -170,9 +187,10 @@ export function load(workspace) {
                 return false;
             }
             return true;
-        },
-        getSvDependencies: function() {
-            let descendants = this.getDescendants();
+        }
+
+        getSvDependencies = () => {
+            let descendants = this.getDescendants(false);
             console.log(descendants);
             let deps = [];
 
@@ -185,11 +203,13 @@ export function load(workspace) {
                 }
             }
             return deps;
-        },
-        getConnections: function() {
+        }
+
+        getConnections = () => {
             return this.connections;
-        },
-        makeSignalList: function(size) {
+        }
+
+        makeSignalList = (size) => {
             let signals = []
             // List connections
             for (let i = 0; i < this.connections.length; i++) {
@@ -213,9 +233,9 @@ export function load(workspace) {
 
             return [['<no valid signal>', 'SIGNAL_INVALID']];
         }
-    };
 
-    (Blockly as any).Python['module'] = function(block) {
+    blocklyToSystemVerilog(b: Blockly.Block): string | any[] {
+        let block: ModuleBlock = b as ModuleBlock;
         console.log(block);
         let text_name = block.getFieldValue('NAME');
         let statements_connections = (Blockly as any).Python.statementToCode(block, 'CONNECTIONS');
@@ -341,5 +361,5 @@ export function load(workspace) {
         // code += '    return code';
         // code += '}'
         return code;
-    };
+    }
 }
